@@ -1,0 +1,1036 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Summer in Northern Italy — a cinematic luxury travel campaign by Legefilms. Partner with us.">
+  <title>Summer in Northern Italy — Legefilms</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,100..900;1,9..144,100..900&family=Jost:wght@200;300;400&display=swap" rel="stylesheet">
+
+  <style>
+    /* ============================================================
+       TOKENS — one place, character-for-character from palette_commit
+    ============================================================ */
+    :root {
+      --black:    #0A0908;
+      --white:    #F4F2ED;
+      --stone:    #C4BDB0;
+      --charcoal: #2A2724;
+      --mid:      #E8E4DC;
+      --muted:    #8A857D;
+      --border:   #D4CEC5;
+    }
+
+    /* ============================================================
+       RESET
+    ============================================================ */
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+      font-size: 16px;
+    }
+
+    body {
+      font-family: 'Jost', sans-serif;
+      font-weight: 300;
+      background: var(--white);
+      color: var(--charcoal);
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      overflow-x: hidden;
+    }
+
+    a:focus-visible {
+      outline: 2px solid var(--stone);
+      outline-offset: 4px;
+    }
+
+    /* ============================================================
+       NAVIGATION
+    ============================================================ */
+    nav {
+      position: fixed;
+      inset-inline: 0;
+      top: 0;
+      z-index: 200;
+      padding: 1.5rem 2.5rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      transition: background 0.5s ease, border-color 0.5s ease;
+      border-bottom: 1px solid transparent;
+    }
+
+    nav.scrolled {
+      background: rgba(244, 242, 237, 0.96);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border-bottom-color: var(--border);
+    }
+
+    .nav-logo {
+      font-family: 'Jost', sans-serif;
+      font-weight: 200;
+      font-size: 0.72rem;
+      letter-spacing: 0.28em;
+      text-transform: uppercase;
+      color: var(--white);
+      text-decoration: none;
+      transition: color 0.4s ease;
+    }
+
+    nav.scrolled .nav-logo { color: var(--charcoal); }
+
+    .nav-link {
+      font-family: 'Jost', sans-serif;
+      font-weight: 300;
+      font-size: 0.68rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--white);
+      text-decoration: none;
+      padding-bottom: 2px;
+      border-bottom: 1px solid rgba(244, 242, 237, 0.35);
+      transition: color 0.4s ease, border-color 0.4s ease;
+    }
+
+    nav.scrolled .nav-link {
+      color: var(--charcoal);
+      border-bottom-color: rgba(42, 39, 36, 0.25);
+    }
+
+    .nav-link:hover { border-bottom-color: currentColor; }
+
+    /* ============================================================
+       HERO — aesthetic risk: film title card with cinematic letterbox
+    ============================================================ */
+    .hero {
+      position: relative;
+      height: 100vh;
+      background: var(--black);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+    }
+
+    /* Cinematic letterbox: simulates 2.39:1 aspect ratio crop */
+    .hero-bar {
+      position: absolute;
+      inset-inline: 0;
+      height: 11vh;
+      background: #000;
+      z-index: 10;
+      pointer-events: none;
+    }
+    .hero-bar--top    { top: 0; }
+    .hero-bar--bottom { bottom: 0; }
+
+    /* Film grain — canvas-populated via JS */
+    .hero-grain {
+      position: absolute;
+      inset: 0;
+      z-index: 2;
+      pointer-events: none;
+      opacity: 0.04;
+      background-size: 256px 256px;
+      background-repeat: repeat;
+      mix-blend-mode: screen;
+    }
+
+    /* Radial vignette — draws the eye inward like a lens */
+    .hero-vignette {
+      position: absolute;
+      inset: 0;
+      z-index: 3;
+      pointer-events: none;
+      background: radial-gradient(
+        ellipse 110% 85% at 50% 50%,
+        transparent 38%,
+        rgba(0, 0, 0, 0.55) 100%
+      );
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 5;
+      text-align: center;
+      padding: 0 1.5rem;
+      width: 100%;
+    }
+
+    .hero-eyebrow {
+      display: block;
+      font-family: 'Jost', sans-serif;
+      font-weight: 200;
+      font-size: 0.62rem;
+      letter-spacing: 0.42em;
+      text-transform: uppercase;
+      color: var(--stone);
+      margin-bottom: 2.75rem;
+    }
+
+    /* "Summer in" — italic light, gentle opening line */
+    .hero-summer {
+      display: block;
+      font-family: 'Fraunces', serif;
+      font-optical-sizing: auto;
+      font-weight: 300;
+      font-style: italic;
+      font-size: clamp(1.8rem, 4.2vw, 3.75rem);
+      color: rgba(244, 242, 237, 0.82);
+      letter-spacing: 0.01em;
+      line-height: 1.2;
+    }
+
+    /* "NORTHERN" / "ITALY" — oversized, fills and bleeds the frame */
+    .hero-title {
+      display: block;
+      font-family: 'Fraunces', serif;
+      font-optical-sizing: auto;
+      font-weight: 900;
+      font-style: normal;
+      font-size: clamp(4.5rem, 19.5vw, 21rem);
+      color: var(--white);
+      line-height: 0.84;
+      letter-spacing: -0.025em;
+      text-transform: uppercase;
+    }
+
+    .hero-rule {
+      width: 1px;
+      height: 38px;
+      background: rgba(196, 189, 176, 0.35);
+      margin: 2.5rem auto;
+    }
+
+    .hero-sub {
+      display: block;
+      font-family: 'Jost', sans-serif;
+      font-weight: 200;
+      font-size: 0.62rem;
+      letter-spacing: 0.32em;
+      text-transform: uppercase;
+      color: var(--stone);
+      margin-bottom: 2.75rem;
+    }
+
+    .hero-actions {
+      display: flex;
+      gap: 1rem;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    /* ── Buttons ── */
+    .btn {
+      font-family: 'Jost', sans-serif;
+      font-weight: 300;
+      font-size: 0.68rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      text-decoration: none;
+      padding: 1rem 2.25rem;
+      display: inline-block;
+      transition: opacity 0.3s ease;
+    }
+
+    .btn:hover { opacity: 0.78; }
+
+    .btn-light {
+      color: var(--black);
+      background: var(--white);
+    }
+
+    .btn-outline {
+      color: var(--white);
+      background: transparent;
+      border: 1px solid rgba(244, 242, 237, 0.28);
+      transition: border-color 0.3s ease;
+    }
+
+    .btn-outline:hover {
+      opacity: 1;
+      border-color: rgba(244, 242, 237, 0.65);
+    }
+
+    .btn-dim {
+      color: var(--white);
+      background: var(--charcoal);
+    }
+
+    /* Scroll indicator */
+    .hero-scroll {
+      position: absolute;
+      bottom: calc(11vh + 1.75rem);
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 6;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.5rem;
+      opacity: 0.3;
+      pointer-events: none;
+    }
+
+    .hero-scroll span {
+      font-family: 'Jost', sans-serif;
+      font-weight: 200;
+      font-size: 0.52rem;
+      letter-spacing: 0.38em;
+      text-transform: uppercase;
+      color: var(--white);
+    }
+
+    .scroll-line {
+      width: 1px;
+      height: 34px;
+      background: linear-gradient(to bottom, var(--stone), transparent);
+      animation: tick 2.2s ease-in-out infinite;
+      transform-origin: top;
+    }
+
+    @keyframes tick {
+      0%, 100% { transform: scaleY(0); opacity: 0; }
+      25%, 75%  { transform: scaleY(1); opacity: 1; }
+    }
+
+    /* ============================================================
+       JOURNEY — dark film-strip
+    ============================================================ */
+    .journey {
+      background: var(--black);
+      padding: 8rem 0 5rem;
+      overflow: hidden;
+    }
+
+    .journey-header {
+      padding: 0 2.5rem;
+      max-width: 1200px;
+      margin: 0 auto 4.5rem;
+    }
+
+    /* ── Shared eyebrow ── */
+    .eyebrow {
+      display: block;
+      font-family: 'Jost', sans-serif;
+      font-weight: 200;
+      font-size: 0.62rem;
+      letter-spacing: 0.38em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 1.75rem;
+    }
+
+    .eyebrow--light { color: var(--stone); }
+
+    /* ── Shared section headline ── */
+    .section-head {
+      font-family: 'Fraunces', serif;
+      font-optical-sizing: auto;
+      font-weight: 700;
+      font-size: clamp(2.25rem, 5vw, 4.5rem);
+      line-height: 1.05;
+      letter-spacing: -0.022em;
+    }
+
+    .section-head--light { color: var(--white); }
+    .section-head--dark  { color: var(--black); }
+
+    /* Horizontal film strip — scroll on mobile */
+    .strip {
+      display: flex;
+      gap: 1px;
+      padding: 0 2.5rem;
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+      scrollbar-width: none;
+    }
+
+    .strip::-webkit-scrollbar { display: none; }
+
+    /* Each frame simulates a film location */
+    .frame {
+      flex: 1 1 0;
+      min-width: 280px;
+      aspect-ratio: 16 / 9;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .frame--milan {
+      background: linear-gradient(152deg, #191512 0%, #302418 48%, #141008 100%);
+    }
+    .frame--como {
+      background: linear-gradient(158deg, #101420 0%, #182030 50%, #0c1018 100%);
+    }
+    .frame--dolomites {
+      background: linear-gradient(162deg, #141520 0%, #201e2c 50%, #0e0e1a 100%);
+    }
+
+    /* Atmospheric light blooms — location-specific */
+    .frame::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    .frame--milan::before {
+      background: radial-gradient(ellipse 65% 45% at 72% 88%, rgba(195, 145, 68, 0.2) 0%, transparent 65%);
+    }
+
+    .frame--como::before {
+      background: radial-gradient(ellipse 95% 38% at 50% 100%, rgba(88, 122, 162, 0.24) 0%, transparent 58%);
+    }
+
+    .frame--dolomites::before {
+      background: radial-gradient(ellipse 58% 48% at 28% 52%, rgba(205, 205, 220, 0.16) 0%, transparent 62%);
+    }
+
+    .frame-inner {
+      position: absolute;
+      inset: 0;
+      z-index: 2;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      padding: 2rem;
+    }
+
+    /* Location tag — top-right, like a film slate */
+    .frame-tag {
+      position: absolute;
+      top: 1.5rem;
+      right: 1.5rem;
+      font-family: 'Jost', sans-serif;
+      font-weight: 200;
+      font-size: 0.52rem;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: rgba(196, 189, 176, 0.4);
+      z-index: 3;
+    }
+
+    .frame-chapter {
+      font-family: 'Jost', sans-serif;
+      font-weight: 200;
+      font-size: 0.58rem;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: var(--stone);
+      margin-bottom: 0.55rem;
+    }
+
+    .frame-location {
+      font-family: 'Fraunces', serif;
+      font-optical-sizing: auto;
+      font-weight: 700;
+      font-size: clamp(1.4rem, 2.5vw, 2.25rem);
+      color: var(--white);
+      line-height: 1.1;
+      letter-spacing: -0.01em;
+      margin-bottom: 0.5rem;
+    }
+
+    .frame-desc {
+      font-family: 'Jost', sans-serif;
+      font-weight: 200;
+      font-size: 0.75rem;
+      letter-spacing: 0.03em;
+      color: rgba(196, 189, 176, 0.68);
+      line-height: 1.65;
+    }
+
+    /* Route line — a map drawn with CSS */
+    .journey-route {
+      display: flex;
+      align-items: center;
+      padding: 2.5rem 2.5rem 0;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .route-city {
+      font-family: 'Jost', sans-serif;
+      font-weight: 200;
+      font-size: 0.58rem;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: var(--stone);
+      white-space: nowrap;
+    }
+
+    .route-dot {
+      width: 3px;
+      height: 3px;
+      border-radius: 50%;
+      background: rgba(196, 189, 176, 0.38);
+      margin: 0 1rem;
+      flex-shrink: 0;
+    }
+
+    .route-line {
+      flex: 1;
+      height: 1px;
+      background: rgba(196, 189, 176, 0.13);
+    }
+
+    /* ============================================================
+       PARTNER SECTION
+    ============================================================ */
+    .partner {
+      background: var(--white);
+      padding: 8rem 2.5rem;
+    }
+
+    .partner-intro {
+      max-width: 1200px;
+      margin: 0 auto 5rem;
+    }
+
+    /* 2×2 grid — hairline borders via background-color gap trick */
+    .card-grid {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1px;
+      background: var(--border);
+      border: 1px solid var(--border);
+    }
+
+    .card {
+      background: var(--white);
+      padding: 3.5rem;
+    }
+
+    /* Large italic numeral as visual texture */
+    .card-num {
+      font-family: 'Fraunces', serif;
+      font-optical-sizing: auto;
+      font-weight: 300;
+      font-style: italic;
+      font-size: 3.5rem;
+      color: var(--border);
+      line-height: 1;
+      letter-spacing: -0.02em;
+      margin-bottom: 1.75rem;
+      user-select: none;
+    }
+
+    .card-title {
+      font-family: 'Fraunces', serif;
+      font-optical-sizing: auto;
+      font-weight: 700;
+      font-size: 1.35rem;
+      color: var(--black);
+      letter-spacing: -0.02em;
+      line-height: 1.2;
+      margin-bottom: 1rem;
+    }
+
+    .card-body {
+      font-family: 'Jost', sans-serif;
+      font-weight: 300;
+      font-size: 0.84rem;
+      line-height: 1.82;
+      color: var(--muted);
+      margin-bottom: 1.75rem;
+    }
+
+    .card-list {
+      list-style: none;
+    }
+
+    .card-list li {
+      font-family: 'Jost', sans-serif;
+      font-weight: 300;
+      font-size: 0.78rem;
+      letter-spacing: 0.03em;
+      color: var(--muted);
+      padding: 0.55rem 0;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .card-list li::before {
+      content: '';
+      width: 14px;
+      height: 1px;
+      background: var(--stone);
+      flex-shrink: 0;
+    }
+
+    /* ============================================================
+       ABOUT
+    ============================================================ */
+    .about {
+      background: var(--mid);
+      padding: 9rem 2.5rem;
+    }
+
+    .about-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 55fr 45fr;
+      gap: 7rem;
+      align-items: center;
+    }
+
+    /* Left-border quote — quiet structural device */
+    .about-quote {
+      font-family: 'Fraunces', serif;
+      font-optical-sizing: auto;
+      font-weight: 300;
+      font-style: italic;
+      font-size: clamp(1.45rem, 2.8vw, 2.5rem);
+      line-height: 1.42;
+      color: var(--black);
+      letter-spacing: -0.01em;
+      border-left: 2px solid var(--stone);
+      padding-left: 2.25rem;
+    }
+
+    .about-body {
+      font-family: 'Jost', sans-serif;
+      font-weight: 300;
+      font-size: 0.87rem;
+      line-height: 1.88;
+      color: var(--charcoal);
+    }
+
+    .about-body p + p { margin-top: 1.4rem; }
+
+    .about-sig {
+      margin-top: 2.5rem;
+      padding-top: 1.5rem;
+      border-top: 1px solid var(--border);
+      font-family: 'Jost', sans-serif;
+      font-weight: 300;
+      font-size: 0.65rem;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+
+    /* ============================================================
+       FINAL CTA
+    ============================================================ */
+    .final-cta {
+      background: var(--black);
+      padding: 10rem 2.5rem;
+      text-align: center;
+    }
+
+    .cta-headline {
+      font-family: 'Fraunces', serif;
+      font-optical-sizing: auto;
+      font-weight: 700;
+      font-size: clamp(2.5rem, 6.5vw, 6.5rem);
+      color: var(--white);
+      line-height: 1.05;
+      letter-spacing: -0.025em;
+      margin: 1.5rem 0 1.75rem;
+    }
+
+    .cta-headline em {
+      font-weight: 300;
+      font-style: italic;
+    }
+
+    .cta-sub {
+      font-family: 'Jost', sans-serif;
+      font-weight: 300;
+      font-size: 0.82rem;
+      letter-spacing: 0.08em;
+      color: var(--stone);
+      margin-bottom: 3.5rem;
+    }
+
+    .cta-actions {
+      display: flex;
+      gap: 1rem;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    .cta-footnote {
+      margin-top: 3rem;
+      font-family: 'Jost', sans-serif;
+      font-weight: 200;
+      font-size: 0.6rem;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: rgba(196, 189, 176, 0.35);
+    }
+
+    /* ============================================================
+       FOOTER
+    ============================================================ */
+    footer {
+      background: var(--black);
+      padding: 2rem 2.5rem;
+      border-top: 1px solid rgba(196, 189, 176, 0.07);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+
+    .footer-text {
+      font-family: 'Jost', sans-serif;
+      font-weight: 200;
+      font-size: 0.6rem;
+      letter-spacing: 0.15em;
+      color: rgba(196, 189, 176, 0.28);
+    }
+
+    /* ============================================================
+       FADE ANIMATIONS
+    ============================================================ */
+    .fade {
+      opacity: 0;
+      transform: translateY(22px);
+      transition: opacity 0.9s ease, transform 0.9s ease;
+    }
+
+    .fade.in {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .fade             { opacity: 1; transform: none; transition: none; }
+      .scroll-line      { animation: none; }
+      html              { scroll-behavior: auto; }
+    }
+
+    /* ============================================================
+       RESPONSIVE
+    ============================================================ */
+    @media (max-width: 900px) {
+      .about-inner           { grid-template-columns: 1fr; gap: 3.5rem; }
+      .card-grid             { grid-template-columns: 1fr; }
+      .card                  { padding: 2.5rem 2rem; }
+    }
+
+    @media (max-width: 640px) {
+      nav                    { padding: 1.25rem 1.5rem; }
+      .partner               { padding: 6rem 1.5rem; }
+      .about                 { padding: 6rem 1.5rem; }
+      .final-cta             { padding: 7rem 1.5rem; }
+      .journey-header        { padding: 0 1.5rem; }
+      .strip                 { padding: 0 1.5rem; }
+      .journey-route         { padding: 2rem 1.5rem 0; }
+      .hero-bar              { height: 8vh; }
+      /* Frames scroll on narrow screens */
+      .frame                 { flex: 0 0 80vw; min-width: 0; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ── NAVIGATION ── -->
+  <nav id="nav">
+    <a href="#top" class="nav-logo" aria-label="Legefilms — home">Legefilms</a>
+    <a href="#contact" class="nav-link">Partner With Us</a>
+  </nav>
+
+
+  <!-- ── HERO ── -->
+  <section class="hero" id="top">
+    <!-- Cinematic letterbox bars -->
+    <div class="hero-bar hero-bar--top"    aria-hidden="true"></div>
+    <div class="hero-bar hero-bar--bottom" aria-hidden="true"></div>
+
+    <!-- Film grain — canvas-populated in JS -->
+    <div class="hero-grain" id="js-grain"  aria-hidden="true"></div>
+
+    <!-- Vignette -->
+    <div class="hero-vignette"             aria-hidden="true"></div>
+
+    <div class="hero-content">
+      <span class="hero-eyebrow fade">Legefilms Presents</span>
+
+      <h1>
+        <span class="hero-summer fade">Summer in</span>
+        <span class="hero-title  fade">Northern</span>
+        <span class="hero-title  fade">Italy</span>
+      </h1>
+
+      <div class="hero-rule fade" aria-hidden="true"></div>
+
+      <span class="hero-sub fade">
+        Luxury Hospitality &nbsp;·&nbsp; Scenic Drives &nbsp;·&nbsp; Cinematic Storytelling
+      </span>
+
+      <div class="hero-actions fade">
+        <a href="#contact" class="btn btn-light">Start the Conversation</a>
+        <a href="#journey" class="btn btn-outline">View the Route</a>
+      </div>
+    </div>
+
+    <div class="hero-scroll" aria-hidden="true">
+      <span>Scroll</span>
+      <div class="scroll-line"></div>
+    </div>
+  </section>
+
+
+  <!-- ── JOURNEY ── -->
+  <section class="journey" id="journey" aria-label="The Journey">
+    <div class="journey-header">
+      <span class="eyebrow eyebrow--light fade">The Route</span>
+      <h2 class="section-head section-head--light fade">
+        Three cities.<br>One film.
+      </h2>
+    </div>
+
+    <div class="strip" role="list">
+
+      <article class="frame frame--milan fade" role="listitem">
+        <div class="frame-tag" aria-hidden="true">MXP · Milano Centrale</div>
+        <div class="frame-inner">
+          <p class="frame-chapter">Chapter I</p>
+          <h3 class="frame-location">Milano</h3>
+          <p class="frame-desc">Where style is architecture,<br>and architecture is a way of life.</p>
+        </div>
+      </article>
+
+      <article class="frame frame--como fade" role="listitem">
+        <div class="frame-tag" aria-hidden="true">LCO · Lago di Como</div>
+        <div class="frame-inner">
+          <p class="frame-chapter">Chapter II</p>
+          <h3 class="frame-location">Lake Como</h3>
+          <p class="frame-desc">Silver water, walled gardens,<br>the silence between mountains.</p>
+        </div>
+      </article>
+
+      <article class="frame frame--dolomites fade" role="listitem">
+        <div class="frame-tag" aria-hidden="true">BZO · Dolomiti</div>
+        <div class="frame-inner">
+          <p class="frame-chapter">Chapter III</p>
+          <h3 class="frame-location">The Dolomites</h3>
+          <p class="frame-desc">Stone that learned to reach<br>for something larger than itself.</p>
+        </div>
+      </article>
+
+    </div>
+
+    <div class="journey-route fade" aria-label="Route: Milan to Como to the Dolomites">
+      <span class="route-city">Milan</span>
+      <span class="route-dot" aria-hidden="true"></span>
+      <span class="route-line" aria-hidden="true"></span>
+      <span class="route-dot" aria-hidden="true"></span>
+      <span class="route-city">Como</span>
+      <span class="route-dot" aria-hidden="true"></span>
+      <span class="route-line" aria-hidden="true"></span>
+      <span class="route-dot" aria-hidden="true"></span>
+      <span class="route-city">Dolomites</span>
+    </div>
+  </section>
+
+
+  <!-- ── PARTNER ── -->
+  <section class="partner" id="work" aria-label="Partnership Opportunities">
+    <div class="partner-intro">
+      <span class="eyebrow fade">Why Partner</span>
+      <h2 class="section-head section-head--dark fade">
+        The audience you're trying<br>to reach lives in this frame.
+      </h2>
+    </div>
+
+    <div class="card-grid">
+
+      <div class="card fade">
+        <div class="card-num" aria-hidden="true">01</div>
+        <h3 class="card-title">Luxury Hospitality</h3>
+        <p class="card-body">
+          We embed your property into the visual grammar of the journey — not as a backdrop, but as a chapter.
+          Guests arrive already wanting to be there.
+        </p>
+        <ul class="card-list">
+          <li>Hero feature of your property</li>
+          <li>Interior and dining cinematography</li>
+          <li>Co-branded social content</li>
+          <li>Editorial usage rights included</li>
+        </ul>
+      </div>
+
+      <div class="card fade">
+        <div class="card-num" aria-hidden="true">02</div>
+        <h3 class="card-title">Automotive</h3>
+        <p class="card-body">
+          Northern Italy is one of the world's great driving landscapes. We place your vehicle in that landscape
+          the way it deserves: unhurried, deliberate, cinematic.
+        </p>
+        <ul class="card-list">
+          <li>Mountain and lakeside drive sequences</li>
+          <li>Interior and detail cinematography</li>
+          <li>Long-form campaign film</li>
+          <li>Short-form social edits</li>
+        </ul>
+      </div>
+
+      <div class="card fade">
+        <div class="card-num" aria-hidden="true">03</div>
+        <h3 class="card-title">Travel &amp; Lifestyle</h3>
+        <p class="card-body">
+          The audience for this campaign travels for meaning, not convenience. If your brand lives in that
+          space — fashion, watches, aperitivo culture — this is where it belongs.
+        </p>
+        <ul class="card-list">
+          <li>Product placement and integration</li>
+          <li>Lifestyle and portrait cinematography</li>
+          <li>Campaign stills package</li>
+          <li>Organic narrative weaving</li>
+        </ul>
+      </div>
+
+      <div class="card fade">
+        <div class="card-num" aria-hidden="true">04</div>
+        <h3 class="card-title">Deliverables</h3>
+        <p class="card-body">
+          One campaign, multiple formats. Everything you need for a channel launch, a press moment,
+          or a content library that earns its keep for years.
+        </p>
+        <ul class="card-list">
+          <li>Feature film, 8–12 min</li>
+          <li>Social series, 5 × 60 sec</li>
+          <li>Still photography package</li>
+          <li>Campaign assets and cutdowns</li>
+        </ul>
+      </div>
+
+    </div>
+  </section>
+
+
+  <!-- ── ABOUT ── -->
+  <section class="about" id="about" aria-label="About Legefilms">
+    <div class="about-inner">
+
+      <blockquote class="about-quote fade">
+        "Brands don't need more content. They need one story told so well that people remember the feeling."
+      </blockquote>
+
+      <div>
+        <span class="eyebrow fade">The Director</span>
+        <div class="about-body fade">
+          <p>
+            Geri Baboci founded Legefilms with one premise: luxury brands deserve the same standard of
+            storytelling as the films they admire. Not marketing in a cinematic wrapper — film, with a
+            brand inside it.
+          </p>
+          <p>
+            Working across Europe and the US, Legefilms has built a body of work at the intersection of
+            hospitality, automotive, and travel — always long-form, always location-specific, always
+            with a point of view.
+          </p>
+          <p>
+            Summer in Northern Italy is an original campaign — not a commission, but an invitation.
+            We're building something we believe in. We're looking for partners who do too.
+          </p>
+        </div>
+        <p class="about-sig fade">Geri Baboci &nbsp;—&nbsp; Director, Legefilms</p>
+      </div>
+
+    </div>
+  </section>
+
+
+  <!-- ── FINAL CTA ── -->
+  <section class="final-cta" id="contact" aria-label="Start the Conversation">
+    <div>
+      <span class="eyebrow eyebrow--light fade">Summer 2025</span>
+      <h2 class="cta-headline fade">
+        Your brand belongs<br>in <em>this light.</em>
+      </h2>
+      <p class="cta-sub fade">Limited partnership positions available for the 2025 production window.</p>
+      <div class="cta-actions fade">
+        <a href="mailto:geri@legefilms.com" class="btn btn-light">Start the Conversation</a>
+        <a href="mailto:geri@legefilms.com" class="btn btn-dim">geri@legefilms.com</a>
+      </div>
+      <p class="cta-footnote fade">Legefilms &nbsp;·&nbsp; Milan &nbsp;·&nbsp; Como &nbsp;·&nbsp; Dolomites &nbsp;·&nbsp; 2025</p>
+    </div>
+  </section>
+
+
+  <!-- ── FOOTER ── -->
+  <footer>
+    <p class="footer-text">© 2025 Legefilms. All rights reserved.</p>
+    <p class="footer-text">Summer in Northern Italy</p>
+  </footer>
+
+
+  <script>
+    // ── Film grain: canvas noise texture, more reliable than SVG filter data URIs
+    (function () {
+      const canvas = document.createElement('canvas');
+      canvas.width = 256;
+      canvas.height = 256;
+      const ctx = canvas.getContext('2d');
+      const img = ctx.createImageData(256, 256);
+      for (let i = 0; i < img.data.length; i += 4) {
+        const v = (Math.random() * 255) | 0;
+        img.data[i] = img.data[i + 1] = img.data[i + 2] = v;
+        img.data[i + 3] = 255;
+      }
+      ctx.putImageData(img, 0, 0);
+      const el = document.getElementById('js-grain');
+      if (el) el.style.backgroundImage = 'url(' + canvas.toDataURL() + ')';
+    }());
+
+    // ── Nav: transparent over hero → frosted white after scroll
+    const nav = document.getElementById('nav');
+    window.addEventListener('scroll', function () {
+      nav.classList.toggle('scrolled', window.scrollY > window.innerHeight * 0.72);
+    }, { passive: true });
+
+    // ── Fade-in animations
+    (function () {
+      const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+      if (reduced) {
+        document.querySelectorAll('.fade').forEach(function (el) { el.classList.add('in'); });
+        return;
+      }
+
+      // Hero: stagger on page load
+      document.querySelectorAll('.hero .fade').forEach(function (el, i) {
+        setTimeout(function () { el.classList.add('in'); }, 280 + i * 130);
+      });
+
+      // Everything else: trigger on scroll, stagger within parent
+      const io = new IntersectionObserver(function (entries) {
+        entries.forEach(function (entry) {
+          if (!entry.isIntersecting) return;
+          const parent = entry.target.parentElement;
+          const siblings = Array.from(parent.querySelectorAll('.fade:not(.in)'));
+          const idx = Math.max(0, siblings.indexOf(entry.target));
+          setTimeout(function () { entry.target.classList.add('in'); }, idx * 75);
+          io.unobserve(entry.target);
+        });
+      }, { threshold: 0.1 });
+
+      document.querySelectorAll(':not(.hero) .fade').forEach(function (el) { io.observe(el); });
+    }());
+  </script>
+
+</body>
+</html>
